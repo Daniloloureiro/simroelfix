@@ -15,6 +15,7 @@ from networkx import (
     get_edge_attributes,
     DiGraph
 )
+import json as json
 
 from auxiliar.constants import MCF_CONFIGS
 from auxiliar.functions import CORE_SELECTION_FN
@@ -70,10 +71,18 @@ class Params(object):
         assert isinstance(self.params["n_simulations"], int)
         return self.params["n_simulations"]
 
+    def load_params(self):
+        # Load the parameters from the JSON file
+        with open(self.params, 'r') as file:
+            return json.load(file)
+
     def set_slot_size(self, slot_size: float):
+        # Set the slot size and save the parameters
         self.params["slot_size"] = slot_size
+        self.params.save_params()
 
     def get_slot_size(self):
+        # Make sure the slot size is not a string and return it
         assert not isinstance(self.params["slot_size"], str)
         return self.params["slot_size"]
 

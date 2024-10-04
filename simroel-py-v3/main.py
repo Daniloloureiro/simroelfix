@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-
+import os
 from files.parameters import Params
 from files.file_manager import FileManager
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-
+parameters_path = os.path.join(os.getcwd(), "simroel-py-v3", "parameters.json")
 file_manager = FileManager()
 params = Params()
 app = FastAPI()
@@ -14,10 +14,11 @@ origins = [
     "https://localhost:3000",
     "http://localhost",
     "http://localhost:8000",
+    "http://localhost:8000/set_slot_size",
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,55 +27,21 @@ app.add_middleware(
 #from fastapi.staticfiles import StaticFiles
 #app.mount("/app", StaticFiles(directory="app"), name="app")
 
-@app.get("/mcf-config")
-def get_mcf():
-    params = Params()
-    return {"mcf_config": params.get_mcf_config()}
-
-@app.get("/file-topology")
-def get_file_topology():
-    params = Params()
-    return {"file_topology": params.get_file_topology()}
-
-@app.get("/get_xt_table")
-def get_xt_table():
-    params = Params()
-    return {"xt_table": params.get_xt_table()}
-
-@app.get("/get_osnr_table")
-def get_osnr_table():
-    params = Params()
-    return {"osnr_table": params.get_osnr_table()}
-
-@app.get("get_topology_info")
-def get_topology_info():
-    params = Params()
-    return {"topology_info": params.get_topology_info()}
-
-@app.get("/get_traffic_input_file")
-def get_traffic_input_file():
-    params = Params()
-    return {"traffic_input_file": params.get_traffic_input_file()}
-
-@app.get("/get_n_connections")
-def get_n_connections():
-    params = Params()
-    return {"n_connections": params.get_n_connections()}
-
 class SlotSizeModel(BaseModel):
     slot_size: float
-
-
-###TODO TESTANDO GET E SET
+###TODO TESTANDO GET E SET(Preciso de ajuda, o GET está recebendo dos docs do FASTAPI, trocando o valor no site o get
+###TODO Muda, porém o parameters.json não altera
+###Parameters.json que é lido pelo main.py, o dentro de data não é lido e reconhecido.
 @app.post("/set_slot_size")
 def set_slot_size(slot_size: SlotSizeModel):
-    params.set_slot_size(slot_size.slot_size)
+    file_manager.set_slot_size(slot_size.slot_size)
     return {"message": "Slot size set successfully"}
 
 @app.get("/get_slot_size")
 def get_slot_size():
-    params = Params()
-    return {"slot_size": params.get_slot_size()}
+    # Retorna o valor atual de slot_size
+    params = file_manager.get_params()  # Certifica que está carregando os valores do arquivo
+    return {"slot_size": params["slot_size"]}
 
 @app.get("/get_n_cores")
 def get_n_cores():
@@ -233,3 +200,38 @@ def get_pcc_time_threshold():
 @app.get("/get_ber_type")
 def get_ber_type():
     return {"ber_type": params.get_ber_type()}
+
+@app.get("/mcf-config")
+def get_mcf():
+    params = Params()
+    return {"mcf_config": params.get_mcf_config()}
+
+@app.get("/file-topology")
+def get_file_topology():
+    params = Params()
+    return {"file_topology": params.get_file_topology()}
+
+@app.get("/get_xt_table")
+def get_xt_table():
+    params = Params()
+    return {"xt_table": params.get_xt_table()}
+
+@app.get("/get_osnr_table")
+def get_osnr_table():
+    params = Params()
+    return {"osnr_table": params.get_osnr_table()}
+
+@app.get("get_topology_info")
+def get_topology_info():
+    params = Params()
+    return {"topology_info": params.get_topology_info()}
+
+@app.get("/get_traffic_input_file")
+def get_traffic_input_file():
+    params = Params()
+    return {"traffic_input_file": params.get_traffic_input_file()}
+
+@app.get("/get_n_connections")
+def get_n_connections():
+    params = Params()
+    return {"n_connections": params.get_n_connections()}
