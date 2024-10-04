@@ -15,6 +15,7 @@ from networkx import (
     get_edge_attributes,
     DiGraph
 )
+
 from auxiliar.constants import MCF_CONFIGS
 from auxiliar.functions import CORE_SELECTION_FN
 from files.file_manager import FileManager
@@ -25,6 +26,7 @@ class Params(object):
         self.file_manager = FileManager()
         self.topologies = self.file_manager.dict_topologies
         self.params = self.file_manager.get_params()
+
 
     def get_mcf_config(self):
         assert self.params["n_cores"] in [2, 7, 12, 19, 22, 30]
@@ -68,6 +70,9 @@ class Params(object):
         assert isinstance(self.params["n_simulations"], int)
         return self.params["n_simulations"]
 
+    def set_slot_size(self, slot_size: float):
+        self.params["slot_size"] = slot_size
+
     def get_slot_size(self):
         assert not isinstance(self.params["slot_size"], str)
         return self.params["slot_size"]
@@ -85,6 +90,10 @@ class Params(object):
 
     def get_allocation_fn(self):
         return CORE_SELECTION_FN[self.get_allocation_type()]
+
+
+    def set_bandwidth(self, bandwidth: int):
+        self.params["bandwidth"] = bandwidth
 
     def get_bandwidth(self):
         assert isinstance(self.params["bandwidth"], int)
