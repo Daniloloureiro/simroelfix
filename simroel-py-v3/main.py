@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import os
 from files.parameters import Params
 from files.file_manager import FileManager
@@ -33,15 +33,23 @@ class SlotSizeModel(BaseModel):
 ###TODO Muda, porém o parameters.json não altera
 ###Parameters.json que é lido pelo main.py, o dentro de data não é lido e reconhecido.
 @app.post("/set_slot_size")
-def set_slot_size(slot_size: SlotSizeModel):
-    file_manager.set_slot_size(slot_size.slot_size)
-    return {"message": "Slot size set successfully"}
+def set_slot_size(slot_size_data: SlotSizeModel):
+    try:
+        success = file_manager.set_slot_size(slot_size_data.slot_size)
+        if success:
+            return {"message": "Slot size updated successfully", "new_value": slot_size_data.slot_size}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to update slot size")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/get_slot_size")
 def get_slot_size():
-    # Retorna o valor atual de slot_size
-    params = file_manager.get_params()  # Certifica que está carregando os valores do arquivo
-    return {"slot_size": params["slot_size"]}
+    try:
+        params = file_manager.get_params()
+        return {"slot_size": params["slot_size"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/get_n_cores")
 def get_n_cores():

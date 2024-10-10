@@ -1,7 +1,7 @@
 {
     "n_connections": 100000,
     "n_simulations": 1,
-    "slot_size": 12.5,
+    "slot_size": 25.5,
     "n_cores": 7,
     "file_topology": "dt_backbone",
     "bandwidth": 4000,

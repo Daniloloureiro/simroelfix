@@ -53,15 +53,19 @@ class FileManager(object):
         return properties
     ###TODO Tentativas de escrever no parameters.json
     def save_params(self, params):
-        # Save the updated parameters to the JSON file
-        with open(self.parameters_path, "w") as f:
-            json.dump(params,f, indent=4)
-        #return save
+        try:
+            with open(self.parameters_path, "w") as f:
+                json.dump(params, f, indent=4)
+            return True
+        except Exception as e:
+            print(f"Error saving parameters: {e}")
+            return False
 
     def set_slot_size(self, slot_size):
-        # Carrega o parameters.json
-        params = self.get_params()
-        # Atualiza o valor do slot_size
-        params["slot_size"] = slot_size
-        # Salva o arquivo com o valor atualizado
-        self.save_params(params)
+        try:
+            params = self.get_params()
+            params["slot_size"] = slot_size
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting slot size: {e}")
+            return False
