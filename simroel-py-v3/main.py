@@ -15,6 +15,7 @@ origins = [
     "http://localhost",
     "http://localhost:8000",
     "http://localhost:8000/set_slot_size",
+    "http://localhost:8000/set_core_pitch",
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -29,6 +30,11 @@ app.add_middleware(
 
 class SlotSizeModel(BaseModel):
     slot_size: float
+
+class CorePitchModel(BaseModel):
+    core_pitch: float
+
+
 ###TODO TESTANDO GET E SET(Preciso de ajuda, o GET está recebendo dos docs do FASTAPI, trocando o valor no site o get
 ###TODO Muda, porém o parameters.json não altera
 ###Parameters.json que é lido pelo main.py, o dentro de data não é lido e reconhecido.
@@ -176,10 +182,25 @@ def get_bending_radius():
 @app.get("/get_coupling_coeff")
 def get_coupling_coeff():
     return {"coupling_coeff": params.get_coupling_coeff()}
+@app.post("/set_core_pitch")
+def set_slot_size(core_pitch_data: CorePitchModel):
+    try:
+        success = file_manager.set_core_pitch(core_pitch_data.core_pitch)
+        if success:
+            return {"message": "Slot size updated successfully", "new_value": core_pitch_data.core_pitch}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to update slot size")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/get_core_pitch")
 def get_core_pitch():
-    return {"core_pitch": params.get_core_pitch()}
+    try:
+        params = file_manager.get_params()
+        return {"core_pitch": params["core_pitch"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    #return {"core_pitch": params.get_core_pitch()}
 
 @app.get("/get_port_isolation")
 def get_port_isolation():

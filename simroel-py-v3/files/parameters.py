@@ -185,7 +185,13 @@ class Params(object):
     def get_coupling_coeff(self):
         return self.params["coupling_coeff"]
 
+    def set_core_pitch(self, core_pitch: float):
+        # Set the slot size and save the parameters
+        self.params["core_pitch"] = core_pitch
+        self.params.save_params()
+
     def get_core_pitch(self):
+        assert not isinstance(self.params["core_pitch"], str)
         return self.params["core_pitch"]
 
     def get_port_isolation(self):

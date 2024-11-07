@@ -69,3 +69,11 @@ class FileManager(object):
         except Exception as e:
             print(f"Error setting slot size: {e}")
             return False
+    def set_core_pitch(self, core_pitch):
+        try:
+            params = self.get_params()
+            params["core_pitch"] = core_pitch
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting core pitch: {e}")
+            return False
