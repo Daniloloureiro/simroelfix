@@ -100,9 +100,33 @@ class Params(object):
     def get_allocation_fn(self):
         return CORE_SELECTION_FN[self.get_allocation_type()]
 
+    def get_node_loss(self):
+        assert isinstance(self.params["node_loss"], int)
+        return self.params["node_loss"]
 
-    def set_bandwidth(self, bandwidth: int):
-        self.params["bandwidth"] = bandwidth
+    def set_node_loss(self):
+        assert not isinstance(self.params["node_loss"], float)
+        return self.params["node_loss"]
+
+    def get_fiber_loss_coefficient(self):
+        assert isinstance(self.params["fiber_loss_coefficient"], int)
+        return self.params["fiber_loss_coefficient"]
+
+    def set_fiber_loss_coefficient(self):
+        assert not isinstance(self.params["fiber_loss_coefficient"], float)
+        return self.params["fiber_loss_coefficient"]
+
+    def get_noise_figure(self):
+        assert isinstance(self.params["noise_figure"], int)
+        return self.params["noise_figure"]
+
+    def set_noise_figure(self):
+        assert not isinstance(self.params["noise_figure"], float)
+        return self.params["noise_figure"]
+
+    def set_bandwidth(self):
+        assert not isinstance(self.params["bandwidth"], str)
+        return self.params["bandwidth"]
 
     def get_bandwidth(self):
         assert isinstance(self.params["bandwidth"], int)
@@ -166,8 +190,7 @@ class Params(object):
     def get_span_length(self):
         return self.params["span_length"]
 
-    def get_node_loss(self):
-        return self.params["node_loss"]
+
 
     def get_band_ref(self):
         return self.params["bandwidth_reference"]

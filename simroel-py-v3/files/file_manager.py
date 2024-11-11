@@ -27,8 +27,8 @@ class FileManager(object):
         self.parameters_path = os.path.join(self.data_dir, "parameters.json")
         self.confidence_interval_path = os.path.join(self.data_dir, "confidence_interval.csv")
         self.traffic_input_file_path = os.path.join(self.data_dir, "traffic_input_file.csv")
-        self.parameters_path = "../simroel-py-v3/parameters.json"  # Pode ser ajustado para data...
-        self.params = {"slot_size": 12.5}
+        self.parameters_path = "../simroel-py-v3/parameters.json"  # PARA RODAR: "../data/parameters.json" "para modificar ".../simroel-py-v3/parameters.json""
+
         topologies_paths = get_files(self.topologies_dir)
         topologies = list(map(lambda path: path.split("\\")[1].replace(".txt", ""),
                               topologies_paths))
@@ -76,4 +76,41 @@ class FileManager(object):
             return self.save_params(params)
         except Exception as e:
             print(f"Error setting core pitch: {e}")
+            return False
+    def set_bandwidth(self, bandwidth):
+        try:
+            params = self.get_params()
+            params["bandwidth"] = bandwidth
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting bandwidth: {e}")
+            return False
+
+    def set_node_loss(self, node_loss):
+        try:
+            params = self.get_params()
+            params["node_loss"] = node_loss
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting node loss: {e}")
+            return False
+
+    # Method for setting fiber_loss_coefficient
+    def set_fiber_loss_coefficient(self, fiber_loss_coefficient):
+        try:
+            params = self.get_params()
+            params["fiber_loss_coefficient"] = fiber_loss_coefficient
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting fiber loss coefficient: {e}")
+            return False
+
+    # Method for setting noise_figure
+    def set_noise_figure(self, noise_figure):
+        try:
+            params = self.get_params()
+            params["noise_figure"] = noise_figure
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting noise figure: {e}")
             return False

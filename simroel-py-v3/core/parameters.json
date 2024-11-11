@@ -1,11 +1,11 @@
 {
     "n_connections": 100000,
     "n_simulations": 1,
-    "slot_size": 12.5,
+    "slot_size": 27.5,
     "n_cores": 7,
     "file_topology": "dt_backbone",
     "bandwidth": 4000,
-    "traffic_lambda": 0.0007142857142857143,
+    "traffic_lambda": 0.0016666666666666668,
     "traffic_refresh": true,
     "traffic_file": true,
     "traffic_conn_types": [
@@ -43,7 +43,7 @@
     "wavelength": 1550,
     "bending_radius": 0.01,
     "coupling_coeff": 0.012,
-    "core_pitch": 4.5,
+    "core_pitch": 61.0,
     "port_isolation": 50,
     "crosstalk_tracer": false,
     "crosstalk_reason": true,

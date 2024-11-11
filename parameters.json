@@ -1,3 +1,4 @@
 {
-    "slot_size": 12.5
+    "slot_size": 12.5,
+    "traffic_lambda": 0.0016666666666666668
 }

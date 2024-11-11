@@ -11,7 +11,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "https://localhost:3000",
+    "https://localhost:3001",
     "http://localhost",
     "http://localhost:8000",
     "http://localhost:8000/set_slot_size",
@@ -34,6 +34,14 @@ class SlotSizeModel(BaseModel):
 class CorePitchModel(BaseModel):
     core_pitch: float
 
+class NodeLossModel(BaseModel):
+    node_loss: float  # Assuming node_loss should be a float
+
+class FiberLossCoefficientModel(BaseModel):
+    fiber_loss_coefficient: float  # Assuming fiber_loss_coefficient should be a float
+
+class NoiseFigureModel(BaseModel):
+    noise_figure: float  # Assuming noise_figure should be a float
 
 ###TODO TESTANDO GET E SET(Preciso de ajuda, o GET está recebendo dos docs do FASTAPI, trocando o valor no site o get
 ###TODO Muda, porém o parameters.json não altera
@@ -57,6 +65,87 @@ def get_slot_size():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+class BandwidthModel(BaseModel):
+    bandwidth: int
+# POST endpoint to receive the bandwi0dth value
+@app.post("/set_bandwidth")
+def set_bandwidth(bandwidth: BandwidthModel):
+    try:
+        sucess = file_manager.set_bandwidth(bandwidth.bandwidth)
+        if sucess:
+            return {"message": "set bandwidth updated successfully", "new_value": bandwidth.bandwidth}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to update bandwidth")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    #return {"message": "Bandwidth set successfully"}
+
+@app.get("/get_bandwidth")
+def get_bandwidth():
+    try:
+        params = file_manager.get_params()
+        return {"bandwidth": params["bandwidth"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    #return {"bandwidth": params.get_bandwidth()}
+
+@app.post("/set_node_loss")
+def set_node_loss(node_loss_data: NodeLossModel):
+    try:
+        success = file_manager.set_node_loss(node_loss_data.node_loss)
+        if success:
+            return {"message": "Node loss updated successfully", "new_value": node_loss_data.node_loss}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to update node loss")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/set_fiber_loss_coefficient")
+def set_fiber_loss_coefficient(fiber_loss_data: FiberLossCoefficientModel):
+    try:
+        success = file_manager.set_fiber_loss_coefficient(fiber_loss_data.fiber_loss_coefficient)
+        if success:
+            return {"message": "Fiber loss coefficient updated successfully", "new_value": fiber_loss_data.fiber_loss_coefficient}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to update fiber loss coefficient")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/set_noise_figure")
+def set_noise_figure(noise_figure_data: NoiseFigureModel):
+    try:
+        success = file_manager.set_noise_figure(noise_figure_data.noise_figure)
+        if success:
+            return {"message": "Noise figure updated successfully", "new_value": noise_figure_data.noise_figure}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to update noise figure")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/get_node_loss")
+def get_node_loss():
+    try:
+        params = file_manager.get_params()
+        return {"node_loss": params["node_loss"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/get_fiber_loss_coefficient")
+def get_fiber_loss_coefficient():
+    try:
+        params = file_manager.get_params()
+        return {"fiber_loss_coefficient": params["fiber_loss_coefficient"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/get_noise_figure")
+def get_noise_figure():
+    try:
+        params = file_manager.get_params()
+        return {"noise_figure": params["noise_figure"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/get_n_cores")
 def get_n_cores():
     params = Params()
@@ -77,17 +166,8 @@ def get_allocation_fn():
     params = Params()
     return {"allocation_fn": params.get_allocation_fn()}
 ### TODO TESTANDO GET E SET
-class BandwidthModel(BaseModel):
-    bandwidth: int
-# POST endpoint to receive the bandwidth value
-@app.post("/set_bandwidth")
-def set_bandwidth(bandwidth: BandwidthModel):
-    params.set_bandwidth(bandwidth.bandwidth)
-    return {"message": "Bandwidth set successfully"}
 
-@app.get("/get_bandwidth")
-def get_bandwidth():
-    return {"bandwidth": params.get_bandwidth()}
+
 
 @app.get("/get_traffic_lambda")
 def get_traffic_lambda():
