@@ -114,3 +114,264 @@ class FileManager(object):
         except Exception as e:
             print(f"Error setting noise figure: {e}")
             return False
+
+    def set_traffic_input_file(self, traffic_input_file):
+        try:
+            params = self.get_params()
+            params["traffic_input_file"] = traffic_input_file
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting traffic input file: {e}")
+            return False
+
+    def set_n_connections(self, n_connections):
+        try:
+            params = self.get_params()
+            params["n_connections"] = n_connections
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting number of connections: {e}")
+            return False
+
+    def set_n_simulations(self, n_simulations):
+        try:
+            params = self.get_params()
+            params["n_simulations"] = n_simulations
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting number of simulations: {e}")
+            return False
+
+    def set_traffic_lambda(self, traffic_lambda):
+        try:
+            params = self.get_params()
+            params["traffic_lambda"] = traffic_lambda
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting traffic lambda: {e}")
+            return False
+
+    def set_traffic_refresh(self, traffic_refresh):
+        try:
+            params = self.get_params()
+            params["traffic_refresh"] = traffic_refresh
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting traffic refresh: {e}")
+            return False
+
+    def set_traffic_file(self, traffic_file):
+        try:
+            params = self.get_params()
+            params["traffic_file"] = traffic_file
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting traffic file: {e}")
+            return False
+
+    def set_traffic_conn_types(self, traffic_conn_types):
+        try:
+            params = self.get_params()
+            params["traffic_conn_types"] = traffic_conn_types
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting traffic connection types: {e}")
+            return False
+
+    def set_route_algorithm(self, route_algorithm):
+        try:
+            params = self.get_params()
+            params["route_algorithm"] = route_algorithm
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting route algorithm: {e}")
+            return False
+
+    def set_k_routes(self, k_routes):
+        try:
+            params = self.get_params()
+            params["k_routes"] = k_routes
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting k routes: {e}")
+            return False
+
+    def set_route_selection(self, route_selection):
+        try:
+            params = self.get_params()
+            params["route_selection"] = route_selection
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting route selection: {e}")
+            return False
+
+    def set_pcc_holding_time(self, pcc_holding_time):
+        try:
+            params = self.get_params()
+            params["pcc_holding_time"] = pcc_holding_time
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting PCC holding time: {e}")
+            return False
+
+    def set_guard_band(self, guard_band):
+        try:
+            params = self.get_params()
+            params["guard_band"] = guard_band
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting guard band: {e}")
+            return False
+
+    def set_conn_holding_time(self, conn_holding_time):
+        try:
+            params = self.get_params()
+            params["connection_holding_time"] = conn_holding_time
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting connection holding time: {e}")
+            return False
+
+    def set_tracer(self, tracer):
+        try:
+            params = self.get_params()
+            params["tracer"] = tracer
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting tracer: {e}")
+            return False
+
+    def set_osnr(self, osnr):
+        try:
+            params = self.get_params()
+            params["osnr"] = osnr
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting OSNR: {e}")
+            return False
+
+    def set_modulation(self, modulation):
+        try:
+            params = self.get_params()
+            params["modulation"] = modulation
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting modulation: {e}")
+            return False
+
+    def set_lambda(self, lambda_value):
+        try:
+            params = self.get_params()
+            params["lambda"] = lambda_value
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting lambda: {e}")
+            return False
+
+    def set_fn(self, fn):
+        try:
+            params = self.get_params()
+            params["fn"] = fn
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting fn: {e}")
+            return False
+
+    def set_p(self, p):
+        try:
+            params = self.get_params()
+            params["p"] = p
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting p: {e}")
+            return False
+
+    def set_span_length(self, span_length):
+        try:
+            params = self.get_params()
+            params["span_length"] = span_length
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting span length: {e}")
+            return False
+
+    def set_band_ref(self, band_ref):
+        try:
+            params = self.get_params()
+            params["bandwidth_reference"] = band_ref
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting bandwidth reference: {e}")
+            return False
+
+    def set_limit_single_carrier(self, limit_single_carrier):
+        try:
+            params = self.get_params()
+            params["limit_single_carrier"] = limit_single_carrier
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting limit single carrier: {e}")
+            return False
+
+    def set_wavelength(self, wavelength):
+        try:
+            params = self.get_params()
+            params["wavelength"] = wavelength
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting wavelength: {e}")
+            return False
+
+    def set_bending_radius(self, bending_radius):
+        try:
+            params = self.get_params()
+            params["bending_radius"] = bending_radius
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting bending radius: {e}")
+            return False
+
+    def set_coupling_coeff(self, coupling_coeff):
+        try:
+            params = self.get_params()
+            params["coupling_coeff"] = coupling_coeff
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting coupling coefficient: {e}")
+            return False
+
+   # def set_core_pitch(self, core_pitch):
+    #    try:
+     #       params = self.get_params()
+      #      params["core_pitch"] = core_pitch
+       #     return self.save_params(params)
+        #except Exception as e:
+         #   print(f"Error setting core pitch: {e}")
+          #  return False
+
+    def set_confidence_interval(self, confidence_interval):
+        try:
+            params = self.get_params()
+            params["ci"] = confidence_interval
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting confidence interval: {e}")
+            return False
+
+    def set_thread_number(self, thread_number):
+        try:
+            params = self.get_params()
+            params["thread_number"] = thread_number
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting thread number: {e}")
+            return False
+
+    def set_pcc_time_threshold(self, pcc_time_threshold):
+        try:
+            params = self.get_params()
+            params["pcc_time_threshold"] = pcc_time_threshold
+            return self.save_params(params)
+        except Exception as e:
+            print(f"Error setting PCC time threshold: {e}")
+            return False
