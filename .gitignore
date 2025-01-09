@@ -1,4 +1,8 @@
-
+simroel-py-v3/__pycache__
+simroel-py-v3/data/fiber_config/__pycache__
+simroel-py-v3/files/__pycache__
+simroel-py-v3/venv
+simroel-py-v3/auxiliar/__pycache__
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/misc.xml
