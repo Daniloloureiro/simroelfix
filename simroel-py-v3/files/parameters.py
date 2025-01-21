@@ -1,6 +1,6 @@
 from numpy import (
-    int16, # ou int_
-    float16, #ou float_
+    int64 as int_, # ou int_
+    float64 as float_, #ou float_
     loadtxt,
     arange,
     array

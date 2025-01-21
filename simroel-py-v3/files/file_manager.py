@@ -1,45 +1,68 @@
 import os
-from glob import glob
+import glob
 import json
 
 
-def structure(directory, extension):
-    # Usando string raw (r) para evitar o erro de escape, estava dando erro pra encontrar(os 2 \\...)
-    paths = glob(rf"{directory}\*{extension}")
-    elements = list(map(lambda path: path.split("\\")[-1].replace(extension, ""), paths))
+def get_files(directory, extension=".txt"):
+    """
+    Return a list of absolute paths to all files in `directory` with the given extension.
+    e.g., if extension == ".txt", we grab all *.txt in that directory.
+    Uses `glob` so it works cross-platform.
+    """
+    pattern = os.path.join(directory, f"*{extension}")
+    return glob.glob(pattern)
 
-    return dict(zip(elements, paths))
 
+def structure(directory, extension=".txt"):
+    """
+    Return a dictionary mapping each file's name (without extension)
+    to its absolute path. Example:
+    {
+       "ber_1-1": "/full/path/to/ber_1-1.txt",
+       "ber_1-5": "/full/path/to/ber_1-5.txt",
+       ...
+    }
+    """
+    result = {}
+    paths = get_files(directory, extension)
+    for p in paths:
+        base = os.path.basename(p)                   # e.g., "ber_1-1.txt"
+        key = os.path.splitext(base)[0]              # e.g., "ber_1-1"
+        result[key] = os.path.abspath(p)             # store the absolute path
+    return result
 
-def get_files(directory, extension="*.txt"):
-    # Usando string raw (r) para evitar o erro de escape, estava dando erro pra encontrar(os 2 \\...)
-    return glob(rf"{directory}\{extension}")
 
 class FileManager(object):
     def __init__(self):
+        # Get absolute path to current working directory
         abs_path = os.path.abspath(os.getcwd())
-        # PATH ARRUMADO
-        abs_path = abs_path[:abs_path.find("simroel-py-v3") + len('simroel-py-v3') + 1]
+        
+        # Locate your project root up to "simroel-py-v3"
+        marker = "simroel-py-v3"
+        if marker in abs_path:
+            # We'll truncate at the end of "simroel-py-v3"
+            base_idx = abs_path.find(marker) + len(marker)
+            # Now abs_path is the path up to ".../simroel-py-v3"
+            abs_path = abs_path[:base_idx]
+        
+        # Build the standard data directories (cross-platform)
         self.data_dir = os.path.join(abs_path, "data")
         self.topologies_dir = os.path.join(self.data_dir, "topologies")
         self.osnr_dir = os.path.join(self.data_dir, "osnr")
         self.crosstalk_dir = os.path.join(self.data_dir, "crosstalk")
+
+        # Example paths for JSON, CSV files, etc.
         self.parameters_path = os.path.join(self.data_dir, "parameters.json")
         self.confidence_interval_path = os.path.join(self.data_dir, "confidence_interval.csv")
         self.traffic_input_file_path = os.path.join(self.data_dir, "traffic_input_file.csv")
-        self.parameters_path = "../simroel-py-v3/parameters.json"  # PARA RODAR: "../data/parameters.json" "para modificar ".../simroel-py-v3/parameters.json""
 
-        topologies_paths = get_files(self.topologies_dir)
-        topologies = list(map(lambda path: path.split("\\")[1].replace(".txt", ""),
-                              topologies_paths))
+        # If you specifically want a relative path for parameters.json, do so carefully:
+        # self.parameters_path = "../parameters.json"  # Overriding if needed
 
-        self.dict_topologies = dict(zip(topologies, topologies_paths))
-        self.traffic_input_file_path = os.path.join(self.data_dir, "traffic_input_file.csv")
+        # Build the dictionaries for text files
         self.dict_topologies = structure(self.topologies_dir, ".txt")
-        # print(self.dict_topologies)
         self.dict_osnr = structure(self.osnr_dir, ".txt")
         self.dict_crosstalk = structure(self.crosstalk_dir, ".txt")
-
     def create_default_params(self):
         # Cria um default, não sei se valeria a pena mas está aqui um esqueleto.
         default_params = {"slot_size": 12.5}  # Default initial value
