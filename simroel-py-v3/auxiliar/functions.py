@@ -21,12 +21,12 @@ CORE_SELECTION_FN = {
 
 
 def structure(directory, extension):
-    paths = glob(directory + "\*" + extension)
+    paths = glob(directory + "\\*" + extension)
     elements = list(map(lambda path: path.split("\\")[-1].replace(extension, ""), paths))
     return dict(zip(elements, paths))
 
 
-def get_files(directory, extension="\*.txt"):
+def get_files(directory, extension="\\*.txt"):
     return glob(directory + extension)
 
 

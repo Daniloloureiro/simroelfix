@@ -12,7 +12,7 @@ n_repeat = 2
 n_total = len(loads)*n_repeat
 simu = 1
 for erlang in loads:
-    with open('../data/parameters.json', 'r+') as f:
+    with open('/home/backu/PycharmProjects/simroelfix/simroel-py-v3/data/parameters.json', 'r+') as f: #mudar diretorio de maneira exata
         data = json.load(f)
         data['traffic_lambda'] = 1/erlang # <--- add id value.
         f.seek(0)        # <--- should reset file position to the beginning.
