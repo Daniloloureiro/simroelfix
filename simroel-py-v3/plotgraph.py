@@ -1,30 +1,64 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# 1. Ler o arquivo CSV
-file_path = "/home/backu/PycharmProjects/simroelfix/simroel-py-v3/Result/new_FF_est2.csv"
-data = pd.read_csv(file_path)
+# Carregar o arquivo CSV
+caminho_arquivo = "/home/backu/PycharmProjects/simroelfix/simroel-py-v3/Result/new_FF_est2.csv"
+df = pd.read_csv(caminho_arquivo)
 
-# 2. Exibir as primeiras linhas para entender a estrutura dos dados
-print(data.head())
+# Verificar os tipos de dados das colunas
+print("Tipos de dados antes da conversão:")
+print(df.dtypes)
 
-# 3. Calcular o número de conexões bloqueadas e a probabilidade de bloqueio
-data['Blocked_Connections'] = data['Load'] - data['Allocted']
-data['Blocking_Probability'] = data['Blocked_Connections'] / data['Load']
+# Converter colunas para o tipo numérico
+colunas_numericas = ['Resource', 'OSNR', 'Crosstalk', 'nli', 'Allocted', 'Load']
+df[colunas_numericas] = df[colunas_numericas].apply(pd.to_numeric, errors='coerce')
 
-# 4. Agrupar por 'Load' e calcular a média da probabilidade de bloqueio
-blocking_probability = data.groupby('Load')['Blocking_Probability'].mean()
+# Verificar os tipos de dados após a conversão
+print("\nTipos de dados após a conversão:")
+print(df.dtypes)
 
-# 5. Gerar o gráfico
+# Verificar se há valores nulos após a conversão
+print("\nValores nulos após a conversão:")
+print(df.isnull().sum())
+
+# Evitar divisões por zero e calcular as métricas normalizadas por "Allocated"
+df['Resource_pb'] = df['Resource'] / df['Allocted']
+df['OSNR_pb'] = df['OSNR'] / df['Allocted']
+df['Crosstalk_pb'] = df['Crosstalk'] / df['Allocted']
+df['Total_pb'] = (df['Resource'] + df['OSNR'] + df['Crosstalk']) / df['Allocted']
+
+# Substituir zeros para evitar problemas ao usar escala logarítmica
+df.replace(0, 1e-6, inplace=True)
+
+# Transformar o DataFrame para formato longo para plotagem
+df_melted = df.melt(
+    id_vars=['Load'],
+    value_vars=['Resource_pb', 'OSNR_pb', 'Crosstalk_pb', 'Total_pb'],
+    var_name='Metric',
+    value_name='pb'
+)
+
+# Plotar gráfico com seaborn
 plt.figure(figsize=(10, 6))
-plt.plot(blocking_probability.index, blocking_probability.values, marker='o', linestyle='-', color='r', label='Probabilidade de Bloqueio')
+sns.lineplot(
+    data=df_melted,
+    x='Load',
+    y='pb',
+    hue='Metric',
+    marker='o',
+    palette='husl',
+    linewidth=2
+)
 
-# 6. Adicionar título e rótulos
-plt.title("Probabilidade de Bloqueio por Carga")
-plt.xlabel("Carga (Load)")
-plt.ylabel("Probabilidade de Bloqueio")
-plt.legend()
+# Configurações do gráfico
+plt.xlabel('Load [Erlang]', fontsize=12)
+plt.ylabel('pb (Métrica / Allocated)', fontsize=12)
+plt.yscale('log')  # Escala logarítmica no eixo Y
+plt.title('Load vs pb (Resource, OSNR, Crosstalk)', fontsize=14)
+plt.grid(True, which='both', axis='y', linestyle='--', linewidth=0.5)
+plt.legend(title='Métrica', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
 
-# 7. Mostrar o gráfico
-plt.grid(True)
+# Exibir gráfico
 plt.show()
