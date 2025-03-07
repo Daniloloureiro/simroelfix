@@ -5,15 +5,11 @@
     "n_cores": 7,
     "file_topology": "dt_backbone",
     "bandwidth": 9000,
-    "traffic_lambda": 0.00125,
+    "traffic_lambda": 0.0007142857142857143,
     "traffic_refresh": true,
     "traffic_file": true,
     "traffic_conn_types": [
-        48,
-        120,
-        240,
-        480,
-        1200
+        48
     ],
     "route_algorithm": "kshortestpaths",
     "k_routes": 3,
@@ -27,10 +23,6 @@
     "tracer": false,
     "osnr": false,
     "modulation": [
-        "64-QAM",
-        "32-QAM",
-        "16-QAM",
-        "8-QAM",
         "4-QAM"
     ],
     "lambda": 0.2,

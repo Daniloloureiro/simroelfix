@@ -101,7 +101,7 @@ class Params(object):
         return CORE_SELECTION_FN[self.get_allocation_type()]
 
     def get_node_loss(self):
-        assert isinstance(self.params["node_loss"], int)
+        assert isinstance(self.params["node_loss"], float) #verificara se não muda a simulação
         return self.params["node_loss"]
 
     def set_node_loss(self):
