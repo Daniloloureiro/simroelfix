@@ -80,11 +80,14 @@ simroel-py-v3
 │   ├── stats.py
 │   └── topology.py
 └── venv
-    ├── bin
-    ├── include
-    ├── lib
-    ├── lib64 -> lib
-    ├── pyvenv.cfg
-    └── share
-
-30 directories, 58 files
+|   ├── bin
+|   ├── include
+|   ├── lib
+|   ├── lib64 -> lib
+|   ├── pyvenv.cfg
+|   └── share
+└──endpoints.py
+└──main.py
+└──paramenters.json
+└──plotgraph.py
+30 directories, 62 files
