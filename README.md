@@ -6,15 +6,15 @@ Este guia ensina como configurar e executar o backend do projeto SIMROEL no seu 
 
 ## Pré-requisitos
 
-1. **Python 3.11**
+1. **Python**
 2. **pip** (gerenciador de pacotes Python)
 3. **Git**
 
-### Instale o Python 3.11:
+### Instale o Python 3:
 
 - **Fedora**:  
   ```bash
-  sudo dnf install python3.11
+  sudo dnf install python
   ```
 
 - **Windows**:  
@@ -36,7 +36,7 @@ Este guia ensina como configurar e executar o backend do projeto SIMROEL no seu 
 
 3. **Crie um ambiente virtual**:  
    ```bash
-   python3.11 -m venv venv
+   python -m venv venv
    ```
 
 4. **Ative o ambiente virtual**:  
@@ -49,7 +49,7 @@ Este guia ensina como configurar e executar o backend do projeto SIMROEL no seu 
    python --version
    ```
    O resultado deve ser algo como:  
-   `Python 3.11.11`
+   `Python 3.x.x`
 
 6. **Instale as dependências**:  
    ```bash
